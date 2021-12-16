@@ -6,16 +6,19 @@ public struct NSExpandableView<TopContent: View, BottomContent: View>: View {
     private let bottomContent: () -> BottomContent
     private let cornerRadius: CGFloat
     private let roundedCornerStyle: RoundedCornerStyle
+    private let shouldCollapseOnBottomTap: Bool
     @State private var isExpanded = false
     
     public init(@ViewBuilder topContent: @escaping () -> TopContent,
                 @ViewBuilder bottomContent: @escaping () -> BottomContent,
                 cornerRadius: CGFloat = 10,
-                roundedCornerStyle: RoundedCornerStyle = .circular) {
+                roundedCornerStyle: RoundedCornerStyle = .circular,
+                shouldCollapseOnBottomTap: Bool = true) {
         self.topContent = topContent
         self.bottomContent = bottomContent
         self.cornerRadius = cornerRadius
         self.roundedCornerStyle = roundedCornerStyle
+        self.shouldCollapseOnBottomTap = shouldCollapseOnBottomTap
     }
     
     public var body: some View {
@@ -30,6 +33,13 @@ public struct NSExpandableView<TopContent: View, BottomContent: View>: View {
                         .imageScale(.large)
                         .rotationEffect(.degrees(isExpanded ? 180 : 0))
                         .padding(.trailing)
+                }
+                .onTapGesture {
+                    if !shouldCollapseOnBottomTap {
+                        withAnimation {
+                            isExpanded.toggle()
+                        }
+                    }
                 }
 
                 VStack {
@@ -46,8 +56,10 @@ public struct NSExpandableView<TopContent: View, BottomContent: View>: View {
         .contentShape(Rectangle())
         .animation(.spring(), value: isExpanded)
         .onTapGesture {
-            withAnimation {
-                isExpanded.toggle()
+            if shouldCollapseOnBottomTap {
+                withAnimation {
+                    isExpanded.toggle()
+                }
             }
         }
     }
