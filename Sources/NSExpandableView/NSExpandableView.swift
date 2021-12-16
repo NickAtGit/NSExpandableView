@@ -34,6 +34,7 @@ public struct NSExpandableView<TopContent: View, BottomContent: View>: View {
                         .rotationEffect(.degrees(isExpanded ? 180 : 0))
                         .padding(.trailing)
                 }
+                .frame(maxWidth: .infinity)
                 .onTapGesture {
                     if !shouldCollapseOnBottomTap {
                         withAnimation {
