@@ -27,9 +27,9 @@ public struct NSExpandableView<TopContent: View, BottomContent: View>: View {
                     topContent()
                     Spacer()
                     Image(systemName: "chevron.down")
-                        .padding(.trailing)
                         .imageScale(.large)
                         .rotationEffect(.degrees(isExpanded ? 180 : 0))
+                        .padding(.trailing)
                 }
 
                 VStack {
