@@ -8,7 +8,7 @@ Usage:
 
     var body: some View {
         ScrollView {
-            ExpandableView {
+            NSExpandableView {
                 Text("Title")
                     .bold()
                     .padding()
