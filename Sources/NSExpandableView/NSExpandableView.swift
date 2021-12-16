@@ -8,10 +8,10 @@ public struct NSExpandableView<TopContent: View, BottomContent: View>: View {
     private let roundedCornerStyle: RoundedCornerStyle
     @State private var isExpanded = false
     
-    init(@ViewBuilder topContent: @escaping () -> TopContent,
-         @ViewBuilder bottomContent: @escaping () -> BottomContent,
-         cornerRadius: CGFloat = 10,
-         roundedCornerStyle: RoundedCornerStyle = .circular) {
+    public init(@ViewBuilder topContent: @escaping () -> TopContent,
+                @ViewBuilder bottomContent: @escaping () -> BottomContent,
+                cornerRadius: CGFloat = 10,
+                roundedCornerStyle: RoundedCornerStyle = .circular) {
         self.topContent = topContent
         self.bottomContent = bottomContent
         self.cornerRadius = cornerRadius
