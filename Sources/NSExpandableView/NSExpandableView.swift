@@ -36,16 +36,21 @@ public struct NSExpandableView<TopContent: View, BottomContent: View>: View {
                 }
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    if !shouldCollapseOnBottomTap {
-                        withAnimation {
-                            isExpanded.toggle()
-                        }
+                    withAnimation {
+                        isExpanded.toggle()
                     }
                 }
 
                 VStack {
                     if isExpanded {
                         bottomContent()
+                    }
+                }
+                .onTapGesture {
+                    if shouldCollapseOnBottomTap {
+                        withAnimation {
+                            isExpanded.toggle()
+                        }
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -56,12 +61,5 @@ public struct NSExpandableView<TopContent: View, BottomContent: View>: View {
         }
         .contentShape(Rectangle())
         .animation(.spring(), value: isExpanded)
-        .onTapGesture {
-            if shouldCollapseOnBottomTap {
-                withAnimation {
-                    isExpanded.toggle()
-                }
-            }
-        }
     }
 }
