@@ -2,6 +2,7 @@ import SwiftUI
 
 @available(iOS 13.0, *)
 public struct NSExpandableView<TopContent: View, BottomContent: View>: View {
+    
     private let topContent: () -> TopContent
     private let bottomContent: () -> BottomContent
     private let cornerRadius: CGFloat
@@ -28,7 +29,7 @@ public struct NSExpandableView<TopContent: View, BottomContent: View>: View {
         ZStack {
             RoundedRectangle(cornerRadius: cornerRadius, style: roundedCornerStyle)
                 .foregroundColor(backgroundColor)
-            VStack(alignment: .leading) {
+            VStack {
                 HStack {
                     topContent()
                     Spacer()
@@ -49,6 +50,7 @@ public struct NSExpandableView<TopContent: View, BottomContent: View>: View {
                         bottomContent()
                     }
                 }
+                .contentShape(Rectangle())
                 .onTapGesture {
                     if shouldCollapseOnBottomTap {
                         withAnimation {
@@ -66,3 +68,63 @@ public struct NSExpandableView<TopContent: View, BottomContent: View>: View {
         .animation(.spring(), value: isExpanded)
     }
 }
+
+struct NSExpandableView_Previews: PreviewProvider {
+    static var previews: some View {
+        ScrollView {
+            VStack(spacing: 10) {
+                NSExpandableView {
+                    Text("Test test test test test")
+                        .padding()
+                } bottomContent: {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test")
+                        Text("Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test ")
+                        Text("Test test test test test")
+                        Text("Test test test test test")
+                        Text("Test test test test test")
+                        Button {
+                            
+                        } label: {
+                            Label {
+                                Text("FOoobar")
+                            } icon: {
+                                Image(systemName: "checkmark")
+                            }
+                        }
+                    }
+                    .padding()
+                }
+                
+                NSExpandableView {
+                    Text("Test test test test test")
+                        .padding()
+                } bottomContent: {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test")
+                        Text("Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test ")
+                        Text("Test test test test test")
+                        Text("Test test test test test")
+                        Text("Test test test test test")
+                        Button {
+                            
+                        } label: {
+                            Label {
+                                Text("FOoobar")
+                            } icon: {
+                                Image(systemName: "checkmark")
+                            }
+                        }
+                        Image(systemName: "bolt")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .padding()
+                    }
+                    .padding()
+                }
+            }
+        }
+        .padding()
+    }
+}
+
