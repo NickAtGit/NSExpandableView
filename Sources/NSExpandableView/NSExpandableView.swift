@@ -47,7 +47,10 @@ public struct NSExpandableView<TopContent: View, BottomContent: View>: View {
 
                 VStack {
                     if isExpanded {
-                        bottomContent()
+                        HStack {
+                            bottomContent()
+                            Spacer(minLength: 0)
+                        }
                     }
                 }
                 .contentShape(Rectangle())
@@ -78,11 +81,9 @@ struct NSExpandableView_Previews: PreviewProvider {
                         .padding()
                 } bottomContent: {
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test")
-                        Text("Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test ")
                         Text("Test test test test test")
                         Text("Test test test test test")
-                        Text("Test test test test test")
+                        Text("Test test test test test Test test test fffftest test Test test test f test test")
                         Button {
                             
                         } label: {
