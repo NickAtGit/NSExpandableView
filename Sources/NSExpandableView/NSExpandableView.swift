@@ -1,8 +1,6 @@
 import SwiftUI
 
-@available(iOS 13.0, *)
 public struct NSExpandableView<TopContent: View, BottomContent: View>: View {
-    
     private let topContent: () -> TopContent
     private let bottomContent: () -> BottomContent
     private let cornerRadius: CGFloat
@@ -10,13 +8,21 @@ public struct NSExpandableView<TopContent: View, BottomContent: View>: View {
     private let shouldCollapseOnBottomTap: Bool
     private let backgroundColor: Color
     @State private var isExpanded = false
-    
-    public init(@ViewBuilder topContent: @escaping () -> TopContent,
-                @ViewBuilder bottomContent: @escaping () -> BottomContent,
-                cornerRadius: CGFloat = 10,
-                roundedCornerStyle: RoundedCornerStyle = .continuous,
-                shouldCollapseOnBottomTap: Bool = true,
-                backgroundColor: Color = Color(.secondarySystemBackground)) {
+
+    #if os(iOS)
+    public static var defaultBackgroundColor: Color { Color(.secondarySystemBackground) }
+    #else
+    public static var defaultBackgroundColor: Color { Color.gray.opacity(0.16) }
+    #endif
+
+    public init(
+        @ViewBuilder topContent: @escaping () -> TopContent,
+        @ViewBuilder bottomContent: @escaping () -> BottomContent,
+        cornerRadius: CGFloat = 10,
+        roundedCornerStyle: RoundedCornerStyle = .continuous,
+        shouldCollapseOnBottomTap: Bool = true,
+        backgroundColor: Color = Self.defaultBackgroundColor
+    ) {
         self.topContent = topContent
         self.bottomContent = bottomContent
         self.cornerRadius = cornerRadius
@@ -128,4 +134,3 @@ struct NSExpandableView_Previews: PreviewProvider {
         .padding()
     }
 }
-
