@@ -1,9 +1,10 @@
-// swift-tools-version:5.5
+// swift-tools-version: 5.9
 import PackageDescription
 
 let package = Package(
     name: "NSExpandableView",
-    platforms: [.iOS(.v14), .macOS(.v11)],
+    defaultLocalization: "en",
+    platforms: [.iOS(.v16), .macOS(.v13)],
     products: [.library(name: "NSExpandableView", targets: ["NSExpandableView"])],
     targets: [
         .target(name: "NSExpandableView"),

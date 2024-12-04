@@ -30,19 +30,25 @@ public struct NSExpandableView<TopContent: View, BottomContent: View>: View {
         self.shouldCollapseOnBottomTap = shouldCollapseOnBottomTap
         self.backgroundColor = backgroundColor
     }
-    
+
     public var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: cornerRadius, style: roundedCornerStyle)
                 .foregroundColor(backgroundColor)
+                .accessibilityHidden(true)
             VStack {
                 HStack {
                     topContent()
+                        .accessibilityHint(
+                            isExpanded ? String(localized: "Double-tap to collapse section", bundle: .module) :
+                                String(localized: "Double-tap to expand section", bundle: .module)
+                        )
                     Spacer()
                     Image(systemName: "chevron.down")
                         .imageScale(.large)
                         .rotationEffect(.degrees(isExpanded ? 180 : 0))
                         .padding(.trailing)
+                        .accessibilityHidden(true)
                 }
                 .contentShape(Rectangle())
                 .onTapGesture {
@@ -55,6 +61,7 @@ public struct NSExpandableView<TopContent: View, BottomContent: View>: View {
                     if isExpanded {
                         HStack {
                             bottomContent()
+                                .accessibilityHint(String(localized: "Double-tap to collapse section", bundle: .module))
                             Spacer(minLength: 0)
                         }
                     }
@@ -68,13 +75,15 @@ public struct NSExpandableView<TopContent: View, BottomContent: View>: View {
                     }
                 }
                 .frame(maxWidth: .infinity)
-                .rotation3DEffect(.degrees(isExpanded ? 0 : -90), axis: (x: 1, y: 0, z: 0))
+                .rotation3DEffect(.degrees(isExpanded ? 0 : -89), axis: (x: 1, y: 0, z: 0)) // 90 produces warning logs
                 .scaleEffect(isExpanded ? 1 : 0.4)
                 .animation(.spring(), value: isExpanded)
+                .accessibilityAddTraits(isExpanded ? [.isSelected, .isButton] : .isButton)
             }
         }
         .contentShape(Rectangle())
         .animation(.spring(), value: isExpanded)
+        .accessibilityElement(children: .contain)
     }
 }
 
