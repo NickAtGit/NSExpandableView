@@ -31,6 +31,25 @@ public struct NSExpandableView<TopContent: View, BottomContent: View>: View {
         self.backgroundColor = backgroundColor
     }
 
+    #if os(iOS)
+    @available(iOS 26.0, *)
+    public init(
+        @ViewBuilder topContent: @escaping () -> TopContent,
+        @ViewBuilder bottomContent: @escaping () -> BottomContent,
+        cornerRadius: CGFloat = 30,
+        roundedCornerStyle: RoundedCornerStyle = .continuous,
+        shouldCollapseOnBottomTap: Bool = true,
+        backgroundColor: Color = Self.defaultBackgroundColor
+    ) {
+        self.topContent = topContent
+        self.bottomContent = bottomContent
+        self.cornerRadius = cornerRadius
+        self.roundedCornerStyle = roundedCornerStyle
+        self.shouldCollapseOnBottomTap = shouldCollapseOnBottomTap
+        self.backgroundColor = backgroundColor
+    }
+    #endif
+
     public var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: cornerRadius, style: roundedCornerStyle)
