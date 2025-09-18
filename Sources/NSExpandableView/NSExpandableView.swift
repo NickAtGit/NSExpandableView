@@ -15,28 +15,18 @@ public struct NSExpandableView<TopContent: View, BottomContent: View>: View {
     public static var defaultBackgroundColor: Color { Color.gray.opacity(0.16) }
     #endif
 
-    public init(
-        @ViewBuilder topContent: @escaping () -> TopContent,
-        @ViewBuilder bottomContent: @escaping () -> BottomContent,
-        cornerRadius: CGFloat = 10,
-        roundedCornerStyle: RoundedCornerStyle = .continuous,
-        shouldCollapseOnBottomTap: Bool = true,
-        backgroundColor: Color = Self.defaultBackgroundColor
-    ) {
-        self.topContent = topContent
-        self.bottomContent = bottomContent
-        self.cornerRadius = cornerRadius
-        self.roundedCornerStyle = roundedCornerStyle
-        self.shouldCollapseOnBottomTap = shouldCollapseOnBottomTap
-        self.backgroundColor = backgroundColor
-    }
-
     #if os(iOS)
-    @available(iOS 26.0, *)
+    public static var defaultCornerRadius: CGFloat {
+        if #available(iOS 26.0, *) { return 30 } else { return 10 }
+    }
+    #else
+    public static var defaultCornerRadius: CGFloat { 10 }
+    #endif
+
     public init(
         @ViewBuilder topContent: @escaping () -> TopContent,
         @ViewBuilder bottomContent: @escaping () -> BottomContent,
-        cornerRadius: CGFloat = 30,
+        cornerRadius: CGFloat = Self.defaultCornerRadius,
         roundedCornerStyle: RoundedCornerStyle = .continuous,
         shouldCollapseOnBottomTap: Bool = true,
         backgroundColor: Color = Self.defaultBackgroundColor
@@ -48,7 +38,6 @@ public struct NSExpandableView<TopContent: View, BottomContent: View>: View {
         self.shouldCollapseOnBottomTap = shouldCollapseOnBottomTap
         self.backgroundColor = backgroundColor
     }
-    #endif
 
     public var body: some View {
         ZStack {
